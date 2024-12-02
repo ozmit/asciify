@@ -12,7 +12,7 @@ if not HEIGHT:
 else:
     HEIGHT = int(HEIGHT)
 if not WIDTH:
-    WIDTH = 65
+    WIDTH = 70
 else:
     WIDTH = int(WIDTH)
 
@@ -43,12 +43,10 @@ def map(a, b, offset=0):
     return ( (1/b) * a ) + offset 
 
 def img2txt(image, palette=pal):
-    out = ''#*HEIGHT*2
+    out = '\n'*HEIGHT*2
 
     for y in range(HEIGHT):
         for x in range(WIDTH):
-            #print(x, len(image[y]))
-
             px = image[y][x]
 
             value = map(np.average(px), 255)
@@ -75,7 +73,6 @@ skipFrame = 0
 if fps > maxfps:
     skipFrame = np.ceil(fps/maxfps)
     fps = maxfps
-    print(skipFrame, '      aa')
 spf = 1/fps
 
 fi = 0
@@ -95,15 +92,15 @@ while cap and cap.isOpened():
     frameList.append(frame)
     fi += 1
 
-#print(HEIGHT, len(frameList[0]))
 
 fi = 0
+flLen = len(frameList)-1
 for f in frameList:
     #if fi >= 10000:
     #    frameList = frameList[:fi-1]
     #    break
     frameList[fi] = img2txt(f)
-    print(f'Processed {fi}       ', end='\r')
+    print(f'Processed {fi}/{flLen}', end='\r')
     fi+= 1
 
 init = True
